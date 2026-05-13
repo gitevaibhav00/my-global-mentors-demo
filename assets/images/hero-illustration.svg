@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Indian students celebrating university admission abroad">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="globe" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="cap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="building" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef3c7" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#fef3c7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="480" fill="url(#bg)"/>
+
+  <!-- Sun glow + sun -->
+  <circle cx="490" cy="95" r="120" fill="url(#sun)"/>
+  <circle cx="490" cy="95" r="38" fill="#fbbf24" opacity="0.92"/>
+
+  <!-- Clouds -->
+  <g fill="#ffffff" opacity="0.9">
+    <ellipse cx="120" cy="80" rx="46" ry="13"/>
+    <ellipse cx="100" cy="72" rx="28" ry="10"/>
+    <ellipse cx="380" cy="58" rx="36" ry="11"/>
+    <ellipse cx="395" cy="52" rx="22" ry="8"/>
+  </g>
+
+  <!-- Decorative dots -->
+  <g>
+    <circle cx="60" cy="170" r="4" fill="#3b82f6" opacity="0.45"/>
+    <circle cx="545" cy="210" r="5" fill="#f59e0b" opacity="0.55"/>
+    <circle cx="40" cy="290" r="3" fill="#10b981" opacity="0.5"/>
+    <circle cx="560" cy="350" r="4" fill="#ec4899" opacity="0.45"/>
+    <circle cx="80" cy="395" r="5" fill="#8b5cf6" opacity="0.45"/>
+  </g>
+
+  <!-- Sparkles -->
+  <g fill="#fbbf24">
+    <path d="M155 130 l3 -8 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 z" opacity="0.85"/>
+    <path d="M515 250 l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 z" opacity="0.75"/>
+    <path d="M70 350 l2 -5 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 z" opacity="0.75"/>
+  </g>
+
+  <!-- Ground / road -->
+  <path d="M0 425 Q300 415 600 425 L600 480 L0 480 Z" fill="#e2e8f0"/>
+  <path d="M0 425 Q300 415 600 425" stroke="#94a3b8" stroke-width="2" stroke-dasharray="10 8" fill="none" opacity="0.6"/>
+
+  <!-- University building (left) -->
+  <g transform="translate(50, 252)">
+    <rect x="0" y="40" width="160" height="135" fill="url(#building)" stroke="#94a3b8" stroke-width="1.5"/>
+    <polygon points="-10,40 80,0 170,40" fill="#1e3a8a"/>
+    <rect x="20" y="60" width="14" height="115" fill="#e2e8f0"/>
+    <rect x="50" y="60" width="14" height="115" fill="#e2e8f0"/>
+    <rect x="96" y="60" width="14" height="115" fill="#e2e8f0"/>
+    <rect x="126" y="60" width="14" height="115" fill="#e2e8f0"/>
+    <rect x="68" y="115" width="24" height="60" fill="#1e40af"/>
+    <circle cx="80" cy="92" r="9" fill="#fbbf24"/>
+    <line x1="80" y1="0" x2="80" y2="-30" stroke="#475569" stroke-width="2"/>
+    <polygon points="80,-30 105,-23 80,-16" fill="#ef4444"/>
+  </g>
+
+  <!-- Globe (center, behind students) -->
+  <g transform="translate(300, 215)">
+    <circle r="86" fill="url(#globe)"/>
+    <ellipse rx="86" ry="30" fill="none" stroke="#bfdbfe" stroke-width="1.5" opacity="0.55"/>
+    <ellipse rx="86" ry="55" fill="none" stroke="#bfdbfe" stroke-width="1.5" opacity="0.4"/>
+    <ellipse rx="30" ry="86" fill="none" stroke="#bfdbfe" stroke-width="1.5" opacity="0.55"/>
+    <ellipse rx="55" ry="86" fill="none" stroke="#bfdbfe" stroke-width="1.5" opacity="0.4"/>
+    <line x1="-86" y1="0" x2="86" y2="0" stroke="#bfdbfe" stroke-width="1.5" opacity="0.55"/>
+    <line x1="0" y1="-86" x2="0" y2="86" stroke="#bfdbfe" stroke-width="1.5" opacity="0.55"/>
+    <path d="M-50 -20 Q-30 -40 -10 -30 Q5 -22 -5 -10 Q-20 0 -45 -5 Z" fill="#10b981" opacity="0.95"/>
+    <path d="M20 -40 Q40 -50 55 -35 Q60 -20 45 -15 Q25 -20 20 -40 Z" fill="#10b981" opacity="0.95"/>
+    <path d="M-30 20 Q-10 30 10 25 Q30 35 25 50 Q5 55 -15 50 Q-35 40 -30 20 Z" fill="#10b981" opacity="0.95"/>
+    <path d="M40 25 Q60 30 50 50 Q35 55 30 40 Z" fill="#10b981" opacity="0.95"/>
+    <ellipse rx="110" ry="22" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="3 4" opacity="0.85"/>
+    <circle cx="105" cy="6" r="6" fill="#fbbf24"/>
+  </g>
+
+  <!-- ============================================================
+       STUDENT 1 (left of globe) — friendly cartoon style
+       ============================================================ -->
+  <g transform="translate(225, 320)">
+    <!-- Gown / robe -->
+    <path d="M-30 35 Q-38 90 -34 130 L34 130 Q38 90 30 35 Q18 28 0 28 Q-18 28 -30 35 Z" fill="#1e40af"/>
+    <!-- White collar V -->
+    <path d="M-12 28 L0 50 L12 28 Z" fill="#f8fafc"/>
+    <!-- Neck -->
+    <rect x="-8" y="18" width="16" height="12" fill="#d4a574"/>
+    <!-- Head (skin) -->
+    <circle cx="0" cy="0" r="22" fill="#e8b489"/>
+    <!-- Hair — compact, hugs top of head, side-parted brown so it does NOT merge with the black cap -->
+    <path d="M-22 -6 Q-22 -19 -2 -22 Q22 -22 22 -6 Q22 -10 14 -12 Q4 -14 -4 -13 Q-14 -12 -22 -6 Z" fill="#3f2317"/>
+    <!-- Side-burn hint -->
+    <path d="M-22 -6 Q-22 4 -20 8" fill="none" stroke="#3f2317" stroke-width="2" stroke-linecap="round"/>
+    <path d="M22 -6 Q22 4 20 8" fill="none" stroke="#3f2317" stroke-width="2" stroke-linecap="round"/>
+    <!-- Ears -->
+    <ellipse cx="-21" cy="3" rx="3" ry="5" fill="#d49978"/>
+    <ellipse cx="21" cy="3" rx="3" ry="5" fill="#d49978"/>
+    <!-- Eyebrows -->
+    <path d="M-12 -5 Q-7 -7 -2 -5" stroke="#3f2317" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <path d="M2 -5 Q7 -7 12 -5" stroke="#3f2317" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- Eyes (white + iris + catchlight) -->
+    <ellipse cx="-7" cy="1" rx="3.5" ry="2.5" fill="#ffffff"/>
+    <ellipse cx="7"  cy="1" rx="3.5" ry="2.5" fill="#ffffff"/>
+    <circle cx="-7" cy="1.5" r="2" fill="#0f172a"/>
+    <circle cx="7"  cy="1.5" r="2" fill="#0f172a"/>
+    <circle cx="-6.2" cy="0.8" r="0.7" fill="#ffffff"/>
+    <circle cx="7.8"  cy="0.8" r="0.7" fill="#ffffff"/>
+    <!-- Nose -->
+    <path d="M0 4 Q-2 9 0 11 Q2 9 0 4" fill="#d49978" opacity="0.85"/>
+    <!-- Smile -->
+    <path d="M-7 13 Q0 18 7 13" stroke="#7c2d12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M-5 14 Q0 16 5 14" fill="#f87171" opacity="0.55"/>
+    <!-- Cheek blush -->
+    <ellipse cx="-13" cy="9" rx="3.5" ry="1.8" fill="#f87171" opacity="0.35"/>
+    <ellipse cx="13" cy="9" rx="3.5" ry="1.8" fill="#f87171" opacity="0.35"/>
+
+    <!-- ===== Graduation Cap (proper mortarboard, lifted above head) ===== -->
+    <g transform="translate(0, -28)">
+      <!-- Tassel (drawn first so cap sits on top of it visually) -->
+      <line x1="22" y1="-4" x2="30" y2="14" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="30" y1="14" x2="30" y2="20" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="30" cy="22" r="4" fill="#fbbf24"/>
+      <path d="M27 22 Q30 28 33 22" fill="#fbbf24"/>
+      <!-- Headband (sits on the hair) -->
+      <ellipse cx="0" cy="4" rx="20" ry="3.5" fill="#0f172a"/>
+      <rect x="-20" y="-1" width="40" height="5" fill="#0f172a"/>
+      <!-- Flat mortarboard top — wide, slightly tilted for 3D feel -->
+      <path d="M-32 -4 L32 -4 L36 -1 L-28 -1 Z" fill="#1e293b"/>
+      <line x1="-32" y1="-4" x2="32" y2="-4" stroke="#475569" stroke-width="0.6"/>
+      <!-- Center button -->
+      <circle cx="2" cy="-3" r="2.5" fill="#fbbf24"/>
+      <circle cx="2" cy="-3" r="1" fill="#fde68a"/>
+    </g>
+
+    <!-- Diploma in hand -->
+    <g transform="translate(-34, 88) rotate(-15)">
+      <rect width="22" height="30" rx="2" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+      <line x1="4" y1="7" x2="18" y2="7" stroke="#a16207" stroke-width="1"/>
+      <line x1="4" y1="13" x2="15" y2="13" stroke="#a16207" stroke-width="1"/>
+      <line x1="4" y1="19" x2="18" y2="19" stroke="#a16207" stroke-width="1"/>
+      <circle cx="11" cy="25" r="3" fill="#dc2626"/>
+      <path d="M11 25 L8 31 M11 25 L14 31" stroke="#dc2626" stroke-width="1.5"/>
+    </g>
+  </g>
+
+  <!-- ============================================================
+       STUDENT 2 (right of globe) — friendly cartoon style
+       ============================================================ -->
+  <g transform="translate(385, 320)">
+    <!-- Gown -->
+    <path d="M-30 35 Q-38 90 -34 130 L34 130 Q38 90 30 35 Q18 28 0 28 Q-18 28 -30 35 Z" fill="#7c3aed"/>
+    <!-- Yellow stole (sash) -->
+    <path d="M-22 32 L-10 90 L-16 92 L-28 35 Z" fill="#fbbf24"/>
+    <path d="M22 32 L10 90 L16 92 L28 35 Z" fill="#fbbf24"/>
+    <!-- White collar -->
+    <path d="M-12 28 L0 50 L12 28 Z" fill="#f8fafc"/>
+    <!-- Neck -->
+    <rect x="-8" y="18" width="16" height="12" fill="#d4a574"/>
+    <!-- Head -->
+    <circle cx="0" cy="0" r="22" fill="#eec19c"/>
+    <!-- Hair — top crown only (stays above the eyes so the face is fully visible) -->
+    <path d="M-22 -5 Q-22 -22 0 -23 Q22 -22 22 -5 Q22 -11 13 -13 Q0 -15 -13 -13 Q-22 -11 -22 -5 Z" fill="#2c1810"/>
+    <!-- Soft side-locks tucked beside the cheeks (kept narrow so they frame, don't cover) -->
+    <path d="M-22 -5 Q-24 6 -22 14 Q-21 16 -19 16 Q-19 6 -19 -3 Z" fill="#2c1810"/>
+    <path d="M22 -5 Q24 6 22 14 Q21 16 19 16 Q19 6 19 -3 Z" fill="#2c1810"/>
+    <!-- Ears -->
+    <ellipse cx="-21" cy="4" rx="3" ry="5" fill="#d8a987"/>
+    <ellipse cx="21" cy="4" rx="3" ry="5" fill="#d8a987"/>
+    <!-- Eyebrows -->
+    <path d="M-12 -5 Q-7 -7 -2 -5" stroke="#2c1810" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <path d="M2 -5 Q7 -7 12 -5" stroke="#2c1810" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- Eyes -->
+    <ellipse cx="-7" cy="1" rx="3.5" ry="2.5" fill="#ffffff"/>
+    <ellipse cx="7"  cy="1" rx="3.5" ry="2.5" fill="#ffffff"/>
+    <circle cx="-7" cy="1.5" r="2" fill="#0f172a"/>
+    <circle cx="7"  cy="1.5" r="2" fill="#0f172a"/>
+    <circle cx="-6.2" cy="0.8" r="0.7" fill="#ffffff"/>
+    <circle cx="7.8"  cy="0.8" r="0.7" fill="#ffffff"/>
+    <!-- Nose -->
+    <path d="M0 4 Q-2 9 0 11 Q2 9 0 4" fill="#d8a987" opacity="0.85"/>
+    <!-- Smile -->
+    <path d="M-7 13 Q0 18 7 13" stroke="#7c2d12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M-5 14 Q0 16 5 14" fill="#f87171" opacity="0.55"/>
+    <!-- Cheek blush -->
+    <ellipse cx="-13" cy="9" rx="3.5" ry="1.8" fill="#f87171" opacity="0.4"/>
+    <ellipse cx="13" cy="9" rx="3.5" ry="1.8" fill="#f87171" opacity="0.4"/>
+    <!-- Bindi (subtle Indian touch) -->
+    <circle cx="0" cy="-8" r="1.6" fill="#dc2626"/>
+
+    <!-- ===== Graduation Cap (lifted above head, proper mortarboard) ===== -->
+    <g transform="translate(0, -28)">
+      <!-- Tassel -->
+      <line x1="22" y1="-4" x2="30" y2="14" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="30" y1="14" x2="30" y2="20" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="30" cy="22" r="4" fill="#fbbf24"/>
+      <path d="M27 22 Q30 28 33 22" fill="#fbbf24"/>
+      <!-- Headband -->
+      <ellipse cx="0" cy="4" rx="20" ry="3.5" fill="#0f172a"/>
+      <rect x="-20" y="-1" width="40" height="5" fill="#0f172a"/>
+      <!-- Flat mortarboard -->
+      <path d="M-32 -4 L32 -4 L36 -1 L-28 -1 Z" fill="#1e293b"/>
+      <line x1="-32" y1="-4" x2="32" y2="-4" stroke="#475569" stroke-width="0.6"/>
+      <!-- Center button -->
+      <circle cx="2" cy="-3" r="2.5" fill="#fbbf24"/>
+      <circle cx="2" cy="-3" r="1" fill="#fde68a"/>
+    </g>
+
+    <!-- Books -->
+    <g transform="translate(28, 80) rotate(12)">
+      <rect width="30" height="7" fill="#dc2626"/>
+      <rect y="7" width="30" height="7" fill="#16a34a"/>
+      <rect y="14" width="30" height="7" fill="#2563eb"/>
+      <line x1="2" y1="3.5" x2="28" y2="3.5" stroke="#ffffff" stroke-width="0.6" opacity="0.5"/>
+      <line x1="2" y1="10.5" x2="28" y2="10.5" stroke="#ffffff" stroke-width="0.6" opacity="0.5"/>
+      <line x1="2" y1="17.5" x2="28" y2="17.5" stroke="#ffffff" stroke-width="0.6" opacity="0.5"/>
+    </g>
+  </g>
+
+  <!-- Tossed cap (mid-air celebration) -->
+  <g transform="translate(160, 130) rotate(-20)">
+    <polygon points="-18,0 18,0 0,-9" fill="url(#cap)"/>
+    <rect x="-18" y="0" width="36" height="4" fill="url(#cap)"/>
+    <line x1="15" y1="2" x2="25" y2="10" stroke="#fbbf24" stroke-width="1.5"/>
+    <circle cx="25" cy="11" r="2.8" fill="#fbbf24"/>
+  </g>
+
+  <!-- Confetti -->
+  <g>
+    <rect x="100" y="180" width="6" height="10" fill="#ef4444" transform="rotate(20 103 185)"/>
+    <rect x="490" y="170" width="6" height="10" fill="#10b981" transform="rotate(-25 493 175)"/>
+    <rect x="440" y="220" width="5" height="9" fill="#3b82f6" transform="rotate(35 442 224)"/>
+    <rect x="180" y="230" width="5" height="9" fill="#f59e0b" transform="rotate(-15 182 234)"/>
+    <rect x="520" y="280" width="6" height="10" fill="#ec4899" transform="rotate(45 523 285)"/>
+    <circle cx="280" cy="120" r="3" fill="#f59e0b"/>
+    <circle cx="330" cy="135" r="3" fill="#ef4444"/>
+    <circle cx="200" cy="190" r="2.5" fill="#10b981"/>
+    <circle cx="430" cy="195" r="2.5" fill="#8b5cf6"/>
+  </g>
+</svg>

@@ -1,0 +1,273 @@
+/* =====================================================
+   COUNTRY PAGE — Additional Styles
+   ===================================================== */
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: .88rem;
+  color: rgba(255, 255, 255, .85);
+  margin-bottom: 24px;
+}
+.breadcrumb a { color: rgba(255, 255, 255, .8); }
+.breadcrumb a:hover { color: #fff; text-decoration: underline; }
+.breadcrumb span:last-child { color: #fff; font-weight: 600; }
+
+/* Country hero */
+.country-hero {
+  position: relative;
+  padding: 60px 0 80px;
+  background: var(--countryBg, linear-gradient(135deg, #1e3a8a, #3b82f6));
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+}
+.country-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, .85) 0%, rgba(30, 58, 138, .75) 100%);
+  z-index: -1;
+}
+.country-hero .hero-shapes { z-index: 0; pointer-events: none; }
+.country-hero .shape-1 { background: #fbbf24; opacity: .2; top: -120px; right: -120px; left: auto; }
+.country-hero .shape-2 { background: #60a5fa; opacity: .2; bottom: -160px; left: -120px; right: auto; top: auto; }
+.country-hero-inner { position: relative; z-index: 2; }
+.country-hero h1 { color: #fff; margin-bottom: 18px; }
+.country-hero h1 .text-gradient {
+  background: linear-gradient(135deg, #fbbf24, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.country-hero .tagline {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, .9);
+  max-width: 600px;
+  margin-bottom: 28px;
+}
+.country-hero-content {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.country-flag-big {
+  width: 96px;
+  height: 64px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,.3);
+}
+.country-flag-big img { width: 100%; height: 100%; object-fit: cover; }
+
+.country-hero-meta { display: flex; justify-content: flex-end; }
+.meta-card {
+  background: rgba(255, 255, 255, .12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  width: 100%;
+  max-width: 360px;
+  display: grid;
+  gap: 18px;
+}
+.meta-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.meta-row i {
+  width: 44px; height: 44px;
+  background: rgba(255, 255, 255, .2);
+  color: #fff;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.meta-row small { color: rgba(255, 255, 255, .8); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+.meta-row strong { display: block; color: #fff; font-size: .98rem; margin-top: 2px; }
+
+/* Facts strip */
+.facts { padding: 60px 0; background: var(--bg-soft); }
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.fact-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border-top: 4px solid var(--primary);
+  transition: all .3s ease;
+}
+.fact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-top-color: var(--secondary); }
+.fact-icon {
+  width: 56px; height: 56px;
+  background: var(--grad-soft);
+  color: var(--primary);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin: 0 auto 14px;
+}
+.fact-card small { color: var(--text-muted); font-size: .82rem; display: block; margin-bottom: 6px; }
+.fact-card strong { display: block; font-family: var(--font-head); font-weight: 700; font-size: 1.1rem; color: var(--primary-dark); }
+
+/* Universities grid */
+.uni-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 24px;
+}
+.uni-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  transition: all .3s ease;
+  position: relative;
+}
+.uni-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-light);
+}
+.uni-rank {
+  display: inline-block;
+  padding: 5px 12px;
+  background: var(--grad-primary);
+  color: #fff;
+  border-radius: var(--radius-full);
+  font-size: .78rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.uni-card h4 { color: var(--primary-dark); margin-bottom: 10px; line-height: 1.35; font-size: 1.05rem; }
+.uni-card p {
+  color: var(--text-muted);
+  font-size: .9rem;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.uni-card p i { color: var(--secondary); }
+
+/* Courses cloud */
+.course-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.course-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: .95rem;
+  color: var(--primary-dark);
+  transition: all .25s ease;
+  animation: courseIn .5s ease both;
+}
+.course-pill i { color: var(--primary); }
+.course-pill:hover {
+  background: var(--grad-primary);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.course-pill:hover i { color: #fff; }
+@keyframes courseIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Why country */
+.why-country { background: var(--bg-soft); }
+.why-country-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.why-country-image img {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* Application steps */
+.app-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+.app-step {
+  background: #fff;
+  padding: 28px 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  text-align: center;
+  position: relative;
+  transition: all .3s ease;
+}
+.app-step:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+.as-num {
+  width: 56px; height: 56px;
+  background: var(--grad-primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 1.4rem;
+  margin: 0 auto 16px;
+  box-shadow: var(--shadow-glow);
+}
+.app-step h4 { color: var(--primary-dark); margin-bottom: 8px; }
+.app-step p { color: var(--text-muted); font-size: .92rem; margin: 0; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .country-hero-content { grid-template-columns: 1fr; gap: 32px; }
+  .country-hero-meta { justify-content: center; }
+  .meta-card { max-width: 100%; }
+  .why-country-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 480px) {
+  .country-hero { padding: 40px 0 60px; }
+  .meta-card { padding: 20px; }
+  .fact-card { padding: 20px; }
+  .uni-card { padding: 20px; }
+}
