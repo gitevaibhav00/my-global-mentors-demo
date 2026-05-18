@@ -1080,31 +1080,82 @@ p  { margin: 0 0 1rem; }
   .why-stat { left: 16px; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
 
-  .nav { display: none; position: fixed; top: 0; right: 0; bottom: 0; width: min(360px, 84%); background: #fff; flex-direction: column; padding: 80px 24px 24px; box-shadow: -10px 0 40px rgba(0,0,0,.15); z-index: 1000; overflow-y: auto; }
-  .nav.open { display: flex; }
+  /* IMPORTANT: backdrop-filter would make .header a containing block for the
+     position:fixed .nav, trapping the slide-out menu inside the header's box.
+     Disable it on mobile so the nav can fill the viewport. */
+  .header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: #fff;
+  }
+
+  /* Drawer is always in flow but slid off-screen — using display:none would kill
+     the slide-in transition. visibility lets us animate cleanly.
+     justify-content:flex-start is required to override the desktop .nav rule's
+     `justify-content:center`, which would otherwise vertically center the menu
+     items in the drawer (leaving a huge gap below the close button). */
+  .nav {
+    display: flex;
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(360px, 84%);
+    background: #fff;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 72px 20px 24px;
+    box-shadow: -10px 0 40px rgba(0,0,0,.15);
+    z-index: 1000;
+    overflow-y: auto;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform .28s ease, visibility .28s;
+  }
+  .nav.open { transform: translateX(0); visibility: visible; }
   .nav > ul { flex-direction: column; align-items: stretch; gap: 4px; width: 100%; }
   .nav > ul > li > a { padding: 14px 16px; justify-content: space-between; }
   .mega-menu {
     position: static;
     transform: none;
     box-shadow: none;
-    padding: 12px 0 12px 16px;
+    padding: 6px 0 10px 14px;
+    /* Single column so long country names ("United Kingdom", "South Korea",
+       "Dubai / UAE") don't get truncated. Compact row padding + internal
+       scroll cap keeps the rest of the menu reachable. */
     grid-template-columns: 1fr;
+    row-gap: 0;
     min-width: 0;
     opacity: 1;
     visibility: visible;
     border-top: none;
     border-left: 2px solid var(--border);
     display: none;
+    max-height: 48vh;
+    overflow-y: auto;
   }
   .has-dropdown.open .mega-menu { display: grid; }
+  .mega-col h5 {
+    margin-top: 8px;
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    font-size: .72rem;
+  }
+  .mega-col h5:first-child { margin-top: 0; }
+  .mega-col a {
+    padding: 6px 0;
+    font-size: .88rem;
+    gap: 10px;
+    white-space: nowrap;
+  }
+  .mega-col a img { width: 22px; height: 15px; flex-shrink: 0; }
   .mega-cta { display: none; }
-  .menu-toggle { display: block; }
+  .menu-toggle { display: block; position: relative; z-index: 1001; }
+  /* Backdrop must sit BELOW the header's stacking layer (z-index:100) so it
+     doesn't paint over the nav (which lives inside the header's stacking context
+     and would otherwise be buried under the backdrop). */
   .nav-backdrop {
     display: none;
     position: fixed; inset: 0;
     background: rgba(15, 23, 42, .5);
-    z-index: 999;
+    z-index: 90;
   }
   .nav-backdrop.show { display: block; }
 
