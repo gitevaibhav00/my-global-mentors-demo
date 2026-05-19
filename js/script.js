@@ -19,26 +19,70 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* ---------- Populate Destinations Grid ---------- */
-  const destGrid = document.getElementById('destinationsGrid');
-  if (destGrid && typeof COUNTRIES !== 'undefined') {
-    const cards = COUNTRIES.map(c => {
-      const uniCount = (c.universities && c.universities.length) || 0;
-      const uniText = uniCount > 0 ? `${uniCount}+ Universities` : 'Top Universities';
-      return `
-        <a class="dest-card" href="countries/country.html?id=${c.id}" aria-label="Study in ${c.name}">
-          <div class="dest-flag">
-            <img src="https://flagcdn.com/w160/${c.code}.png"
-                 srcset="https://flagcdn.com/w320/${c.code}.png 2x"
-                 alt="${c.name} flag" loading="lazy" />
-          </div>
-          <h3 class="dest-name">${c.name}</h3>
-          <span class="dest-info">${uniText}</span>
-          <span class="arrow-pill" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
-        </a>
-      `;
-    }).join('');
-    destGrid.innerHTML = cards;
+  /* ---------- Populate Destinations Slider (8 per slide, 2x4) ---------- */
+  const destTrack = document.getElementById('destinationsGrid');
+  const destDots  = document.getElementById('destDots');
+  const destPrev  = document.getElementById('destPrev');
+  const destNext  = document.getElementById('destNext');
+
+  if (destTrack && typeof COUNTRIES !== 'undefined') {
+    const PER_SLIDE = 8;
+    const slides = [];
+    for (let i = 0; i < COUNTRIES.length; i += PER_SLIDE) {
+      slides.push(COUNTRIES.slice(i, i + PER_SLIDE));
+    }
+
+    destTrack.innerHTML = slides.map(slide => `
+      <div class="dest-slide">
+        ${slide.map(c => `
+          <a class="dest-card" href="countries/country.html?id=${c.id}" aria-label="Study in ${c.name}">
+            <div class="dest-flag">
+              <img src="https://flagcdn.com/w160/${c.code}.png"
+                   srcset="https://flagcdn.com/w320/${c.code}.png 2x"
+                   alt="${c.name} flag" loading="lazy" />
+            </div>
+            <h3 class="dest-name">${c.name}</h3>
+            <span class="arrow-pill" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
+          </a>
+        `).join('')}
+      </div>
+    `).join('');
+
+    if (destDots) {
+      destDots.innerHTML = slides.map((_, i) =>
+        `<button class="dest-dot${i === 0 ? ' active' : ''}" data-slide="${i}" aria-label="Go to slide ${i + 1}"></button>`
+      ).join('');
+    }
+
+    let current = 0;
+    const total = slides.length;
+
+    function goTo(idx) {
+      current = (idx + total) % total;
+      destTrack.style.transform = `translateX(-${current * 100}%)`;
+      if (destDots) {
+        destDots.querySelectorAll('.dest-dot').forEach((d, i) =>
+          d.classList.toggle('active', i === current)
+        );
+      }
+    }
+
+    if (destPrev) destPrev.addEventListener('click', () => goTo(current - 1));
+    if (destNext) destNext.addEventListener('click', () => goTo(current + 1));
+    if (destDots) {
+      destDots.addEventListener('click', e => {
+        const dot = e.target.closest('.dest-dot');
+        if (dot) goTo(parseInt(dot.dataset.slide, 10));
+      });
+    }
+
+    // Basic touch swipe
+    let touchStartX = 0;
+    destTrack.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    destTrack.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
   }
 
   /* ---------- Mobile Nav Toggle ---------- */
@@ -112,26 +156,7 @@
     toggleTop();
   }
 
-  /* ---------- Journey: Phase Filtering ---------- */
-  const phaseButtons = document.querySelectorAll('.phase-chip');
-  const tSteps = document.querySelectorAll('.t-step');
-  phaseButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const phase = btn.dataset.phase;
-      phaseButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      tSteps.forEach(step => {
-        if (phase === 'all' || step.dataset.phase === phase) {
-          step.classList.remove('is-hidden');
-        } else {
-          step.classList.add('is-hidden');
-        }
-      });
-      if (typeof AOS !== 'undefined') AOS.refresh();
-    });
-  });
-
-  /* ---------- Smooth anchor scrolling (for in-page links) ---------- */
+/* ---------- Smooth anchor scrolling (for in-page links) ---------- */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
       const id = link.getAttribute('href');
