@@ -96,7 +96,7 @@
     const tCards = tTrack ? Array.from(tTrack.children) : [];
 
     if (tTrack && tCards.length) {
-      const AUTOPLAY_MS = 3000;
+      const AUTOPLAY_MS = 5000;
       let perView = 3, slideCount = 1, current = 0, timer = null;
 
       const calcPerView = () => {
