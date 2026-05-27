@@ -85,6 +85,100 @@
     }, { passive: true });
   }
 
+  /* ---------- Testimonials carousel (auto-play + arrows + dots) ---------- */
+  const testiCarousel = document.querySelector('[data-testi-carousel]');
+  if (testiCarousel) {
+    const tTrack = testiCarousel.querySelector('.testi-track');
+    const tPrev  = testiCarousel.querySelector('.testi-prev');
+    const tNext  = testiCarousel.querySelector('.testi-next');
+    const tDots  = testiCarousel.querySelector('.testi-dots');
+    const tControls = testiCarousel.querySelector('.testi-controls');
+    const tCards = tTrack ? Array.from(tTrack.children) : [];
+
+    if (tTrack && tCards.length) {
+      const AUTOPLAY_MS = 3000;
+      let perView = 3, slideCount = 1, current = 0, timer = null;
+
+      const calcPerView = () => {
+        if (window.matchMedia('(max-width: 640px)').matches) return 1;
+        if (window.matchMedia('(max-width: 980px)').matches) return 2;
+        return 3;
+      };
+
+      function build() {
+        perView = calcPerView();
+        slideCount = Math.ceil(tCards.length / perView);
+        tTrack.style.setProperty('--per-view', perView);
+        tTrack.innerHTML = '';
+        for (let i = 0; i < slideCount; i++) {
+          const slide = document.createElement('div');
+          slide.className = 'testi-slide';
+          tCards.slice(i * perView, i * perView + perView).forEach(c => slide.appendChild(c));
+          tTrack.appendChild(slide);
+        }
+        if (tDots) {
+          tDots.innerHTML = '';
+          for (let i = 0; i < slideCount; i++) {
+            const b = document.createElement('button');
+            b.className = 'testi-dot' + (i === 0 ? ' active' : '');
+            b.dataset.slide = i;
+            b.setAttribute('aria-label', 'Go to review group ' + (i + 1));
+            tDots.appendChild(b);
+          }
+        }
+        if (current > slideCount - 1) current = slideCount - 1;
+        goTo(current, false);
+        // Hide controls when everything already fits on a single slide.
+        if (tControls) tControls.style.display = slideCount <= 1 ? 'none' : '';
+      }
+
+      function goTo(idx, animate) {
+        current = (idx + slideCount) % slideCount;
+        if (animate === false) tTrack.style.transition = 'none';
+        tTrack.style.transform = 'translateX(-' + (current * 100) + '%)';
+        if (animate === false) { void tTrack.offsetWidth; tTrack.style.transition = ''; }
+        if (tDots) {
+          tDots.querySelectorAll('.testi-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+        }
+      }
+
+      const next = () => goTo(current + 1, true);
+      const prev = () => goTo(current - 1, true);
+      function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+      function startAuto() { stopAuto(); if (slideCount > 1) timer = setInterval(next, AUTOPLAY_MS); }
+
+      if (tPrev) tPrev.addEventListener('click', () => { prev(); startAuto(); });
+      if (tNext) tNext.addEventListener('click', () => { next(); startAuto(); });
+      if (tDots) tDots.addEventListener('click', e => {
+        const d = e.target.closest('.testi-dot');
+        if (d) { goTo(parseInt(d.dataset.slide, 10), true); startAuto(); }
+      });
+
+      // Pause auto-play while the visitor is reading.
+      testiCarousel.addEventListener('mouseenter', stopAuto);
+      testiCarousel.addEventListener('mouseleave', startAuto);
+
+      // Touch swipe.
+      let sx = 0;
+      tTrack.addEventListener('touchstart', e => { sx = e.touches[0].clientX; stopAuto(); }, { passive: true });
+      tTrack.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
+        startAuto();
+      }, { passive: true });
+
+      // Re-group when crossing a responsive breakpoint (3 / 2 / 1 per view).
+      let lastPerView = calcPerView();
+      window.addEventListener('resize', () => {
+        const pv = calcPerView();
+        if (pv !== lastPerView) { lastPerView = pv; build(); }
+      });
+
+      build();
+      startAuto();
+    }
+  }
+
   /* ---------- Mobile Nav Toggle ---------- */
   const menuToggle = document.getElementById('menuToggle');
   const mainNav = document.getElementById('mainNav');
