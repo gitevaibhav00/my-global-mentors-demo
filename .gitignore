@@ -18,6 +18,11 @@ node_modules/
 dist/
 build/
 
+# Client working docs (review requests, content drafts) — never commit
+*.doc
+*.docx
+~$*
+
 # Sensitive
 .env
 .env.local
