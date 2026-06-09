@@ -250,7 +250,33 @@
     toggleTop();
   }
 
-/* ---------- Smooth anchor scrolling (for in-page links) ---------- */
+/* ---------- Founder bios: "Read more" expand/collapse ---------- */
+  document.querySelectorAll('.founder-readmore').forEach(btn => {
+    const wrap = btn.closest('.founder-text');
+    const more = wrap && wrap.querySelector('.founder-more');
+    const label = btn.querySelector('.frm-text');
+    const name = btn.dataset.name || 'this founder';
+    if (!more) return;
+    btn.addEventListener('click', () => {
+      const opening = !wrap.classList.contains('expanded');
+      if (opening) {
+        wrap.classList.add('expanded');
+        more.style.maxHeight = more.scrollHeight + 'px';
+        // After the open animation, drop the cap so reflow/resize can't clip it.
+        const onEnd = () => { more.style.maxHeight = 'none'; more.removeEventListener('transitionend', onEnd); };
+        more.addEventListener('transitionend', onEnd);
+      } else {
+        more.style.maxHeight = more.scrollHeight + 'px'; // from 'none' back to a number
+        void more.offsetHeight;                          // force reflow so the collapse animates
+        more.style.maxHeight = '0px';
+        wrap.classList.remove('expanded');
+      }
+      btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      if (label) label.textContent = (opening ? 'Read less about ' : 'Read more about ') + name;
+    });
+  });
+
+  /* ---------- Smooth anchor scrolling (for in-page links) ---------- */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
       const id = link.getAttribute('href');

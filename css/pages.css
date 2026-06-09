@@ -96,6 +96,32 @@
 .founder-text p { color: var(--text); margin-bottom: 14px; line-height: 1.8; font-size: .96rem; }
 .founder-text p:last-child { margin-bottom: 0; }
 
+/* Founder bio "Read more" expand/collapse */
+.founder-more {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .45s ease;
+}
+.founder-more p:last-child { margin-bottom: 0; }
+.founder-readmore {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: .92rem;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.founder-readmore:hover { color: var(--primary-light); }
+.founder-readmore i { font-size: .78rem; transition: transform .25s ease; }
+.founder-text.expanded .founder-readmore i { transform: rotate(180deg); }
+
 /* Service hero / detailed */
 .service-list {
   display: grid;
