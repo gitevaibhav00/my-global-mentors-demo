@@ -51,6 +51,20 @@
   max-width: 600px;
   margin-bottom: 28px;
 }
+/* "View Universities" is a .btn-outline sitting on the dark hero photo overlay,
+   where the default --primary (blue) text/border is too low-contrast and only
+   reads on hover (when the background fills). Give it a white ghost-button
+   treatment so it's clearly visible without hovering. Scoped to .country-hero
+   so outline buttons on light backgrounds (e.g. the home hero) are unaffected. */
+.country-hero .btn-outline {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .75);
+}
+.country-hero .btn-outline:hover {
+  background: #fff;
+  color: var(--primary-dark);
+  border-color: #fff;
+}
 .country-hero-content {
   display: grid;
   grid-template-columns: 1.4fr 1fr;

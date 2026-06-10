@@ -207,10 +207,9 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="brand">
-            <span class="brand-mark"><img src="../assets/images/logo-mark.png" alt="My Global Mentors" /></span>
-            <span class="brand-text"><strong>My Global Mentors</strong><small>Your Trust, Our Commitment</small></span>
-          </div>
+          <a href="../index.html" class="footer-logo-link" aria-label="My Global Mentors home">
+            <img src="../assets/images/logo-footer.png" alt="My Global Mentors — Your Trust, Our Commitment" class="footer-logo" />
+          </a>
           <p>Guiding Indian students to top universities worldwide.</p>
           <div class="footer-social">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -360,6 +359,16 @@
         whyList.innerHTML = country.why.map(r => `
           <li><i class="fas fa-check-circle"></i> ${r}</li>
         `).join('');
+      }
+
+      // The university (and other) cards above are injected into the DOM *after*
+      // AOS.init() already captured its element list (script.js runs before this
+      // inline script). AOS's DOMContentLoaded refresh only repositions elements
+      // it already knows about — it never re-scans the DOM. Without this hard
+      // refresh the injected [data-aos] university cards stay stuck at opacity:0
+      // and never become visible.
+      if (typeof AOS !== 'undefined' && typeof AOS.refreshHard === 'function') {
+        AOS.refreshHard();
       }
     })();
   </script>

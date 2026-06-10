@@ -1106,10 +1106,10 @@ p  { margin: 0 0 1rem; }
   gap: 40px;
   margin-bottom: 50px;
 }
-.footer-brand .brand .brand-text strong,
 .footer h5 { color: #fff; }
-.footer-brand .brand .brand-text small { color: #94a3b8; }
 .footer-brand p { color: #94a3b8; font-size: .92rem; margin: 18px 0; }
+.footer-logo-link { display: inline-block; }
+.footer-logo { height: clamp(56px, 9vw, 72px); width: auto; display: block; }
 .footer-social { display: flex; gap: 10px; }
 .footer-social a {
   width: 38px; height: 38px;
