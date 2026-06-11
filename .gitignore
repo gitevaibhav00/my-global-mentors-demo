@@ -28,3 +28,6 @@ build/
 .env.local
 *.pem
 *.key
+
+# Backend reference (lives deployed in Google Apps Script, not on the site)
+form-backend.gs

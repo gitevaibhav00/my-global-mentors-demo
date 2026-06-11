@@ -340,7 +340,7 @@
       q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
     });
 
-    /* Form submit — emails the lead to the MGM inbox via FormSubmit */
+    /* Form submit — posts the lead to send-mail.php (PHP mail() on the production host) */
     document.getElementById('counsellingForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       if (!this.checkValidity()) {
@@ -357,20 +357,18 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Sending…';
       try {
-        const res = await fetch('https://formsubmit.co/ajax/myglobalmentorsindia@gmail.com', {
+        const res = await fetch('../send-mail.php', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            _subject: 'New counselling request — ' + this.firstName.value + ' ' + this.lastName.value,
-            _template: 'table',
-            _captcha: 'false',
-            _replyto: this.email.value,
-            'Name': this.firstName.value + ' ' + this.lastName.value,
-            'Email': this.email.value,
-            'Mobile': phoneNumber,
-            'Preferred destination': this.destination.value,
-            'When to start': this.startWhen.value,
-            'Consent to contact': this.consent.checked ? 'Yes' : 'No'
+          headers: { 'Accept': 'application/json' },
+          body: new URLSearchParams({
+            _honey: this._honey.value,
+            firstName: this.firstName.value,
+            lastName: this.lastName.value,
+            email: this.email.value,
+            phone: phoneNumber,
+            destination: this.destination.value,
+            startWhen: this.startWhen.value,
+            consent: this.consent.checked ? 'Yes' : 'No'
           })
         });
         const data = await res.json();
