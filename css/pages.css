@@ -475,6 +475,18 @@
   font-size: .95rem;
 }
 
+.cf-error {
+  margin-top: 22px;
+  padding: 16px 18px;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: .95rem;
+}
+.cf-error a { color: inherit; text-decoration: underline; }
+
 /* Map */
 .map-wrap {
   border-radius: var(--radius-lg);

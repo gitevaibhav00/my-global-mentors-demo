@@ -197,6 +197,8 @@
               </div>
             </div>
 
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;overflow:hidden;" />
+
             <div class="cf-actions">
               <button type="submit" class="btn btn-primary cf-submit"><i class="fas fa-paper-plane"></i> Submit &amp; Get FREE Counselling</button>
               <a href="https://wa.me/918459405277" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp Instead</a>
@@ -204,6 +206,9 @@
 
             <div id="formSuccess" class="cf-success" style="display:none;">
               <i class="fas fa-check-circle"></i> Thank you! Your counselling request has been received. Our expert will contact you within 24 hours.
+            </div>
+            <div id="formError" class="cf-error" style="display:none;">
+              <i class="fas fa-exclamation-circle"></i> Sorry, your request could not be sent. Please try again, or reach us directly on <a href="https://wa.me/918459405277" target="_blank">WhatsApp</a> or <a href="tel:+918459405277">+91 84594 05277</a>.
             </div>
           </form>
         </div>
@@ -335,27 +340,52 @@
       q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
     });
 
-    /* Form submit (front-end only demo) */
-    document.getElementById('counsellingForm').addEventListener('submit', function (e) {
+    /* Form submit — emails the lead to the MGM inbox via FormSubmit */
+    document.getElementById('counsellingForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       if (!this.checkValidity()) {
         this.reportValidity();
         return;
       }
+      if (this._honey.value) return; /* bot trap */
       const phoneNumber = window._iti ? window._iti.getNumber() : document.getElementById('phone').value;
-      console.log('Form submitted', {
-        firstName: this.firstName.value,
-        lastName: this.lastName.value,
-        email: this.email.value,
-        phone: phoneNumber,
-        destination: this.destination.value,
-        startWhen: this.startWhen.value,
-        consent: this.consent.checked
-      });
-      document.getElementById('formSuccess').style.display = 'block';
-      this.reset();
-      if (window._iti) window._iti.setCountry('in');
-      window.scrollTo({ top: document.getElementById('formSuccess').getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' });
+      const submitBtn = this.querySelector('.cf-submit');
+      const success = document.getElementById('formSuccess');
+      const error = document.getElementById('formError');
+      success.style.display = 'none';
+      error.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Sending…';
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/myglobalmentorsindia@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            _subject: 'New counselling request — ' + this.firstName.value + ' ' + this.lastName.value,
+            _template: 'table',
+            _captcha: 'false',
+            _replyto: this.email.value,
+            'Name': this.firstName.value + ' ' + this.lastName.value,
+            'Email': this.email.value,
+            'Mobile': phoneNumber,
+            'Preferred destination': this.destination.value,
+            'When to start': this.startWhen.value,
+            'Consent to contact': this.consent.checked ? 'Yes' : 'No'
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || String(data.success) !== 'true') throw new Error(data.message || ('HTTP ' + res.status));
+        success.style.display = 'block';
+        this.reset();
+        if (window._iti) window._iti.setCountry('in');
+        window.scrollTo({ top: success.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' });
+      } catch (err) {
+        error.style.display = 'block';
+        window.scrollTo({ top: error.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' });
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit &amp; Get FREE Counselling';
+      }
     });
   </script>
 </body>
