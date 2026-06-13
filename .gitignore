@@ -29,5 +29,8 @@ build/
 *.pem
 *.key
 
+# DB credentials for the contact-form mailer — upload to the host manually, never commit
+db-config.php
+
 # Backend reference (lives deployed in Google Apps Script, not on the site)
 form-backend.gs
