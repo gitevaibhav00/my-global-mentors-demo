@@ -31,6 +31,13 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, "Please enter a valid email address.");
 }
 
+// Reject absurdly long values (defence-in-depth vs oversized/abusive payloads).
+// Limits mirror the DB column sizes in the CREATE TABLE below.
+if (strlen($first_name) > 100 || strlen($last_name) > 100 || strlen($email) > 190 ||
+    strlen($phone) > 30 || strlen($destination) > 100 || strlen($start_when) > 100) {
+    respond(false, "One of the fields is too long.");
+}
+
 date_default_timezone_set('Asia/Kolkata');
 $received_at = date('Y-m-d H:i:s');
 
@@ -38,41 +45,66 @@ $received_at = date('Y-m-d H:i:s');
    Credentials live in db-config.php (gitignored, uploaded to the host manually).
    If that file or the DB is unavailable, we skip storage and still email. */
 $stored = false;
-$config_file = __DIR__ . '/db-config.php';
+// Prefer db-config.php ONE LEVEL ABOVE public_html (outside the web root, so it can
+// never be served even if PHP execution breaks); fall back to the same folder.
+$config_file = dirname(__DIR__) . '/db-config.php';
+if (!is_file($config_file)) {
+    $config_file = __DIR__ . '/db-config.php';
+}
 if (is_file($config_file)) {
     $db = require $config_file;
     $mysqli = @new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
     if (!$mysqli->connect_errno) {
         $mysqli->set_charset('utf8mb4');
-        $mysqli->query(
-            "CREATE TABLE IF NOT EXISTS inquiries (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                first_name  VARCHAR(100) NOT NULL,
-                last_name   VARCHAR(100) NOT NULL,
-                email       VARCHAR(190) NOT NULL,
-                phone       VARCHAR(30)  NOT NULL,
-                destination VARCHAR(100) NOT NULL,
-                start_when  VARCHAR(100) NOT NULL,
-                consent     VARCHAR(3)   NOT NULL,
-                created_at  DATETIME     NOT NULL,
-                ip_address  VARCHAR(45)  DEFAULT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
-        );
         $ip = $_SERVER['REMOTE_ADDR'] ?? null;
-        $stmt = $mysqli->prepare(
-            "INSERT INTO inquiries
-             (first_name, last_name, email, phone, destination, start_when, consent, created_at, ip_address)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-        );
-        if ($stmt) {
+
+        // The `inquiries` table is created once in phpMyAdmin (one-time setup SQL),
+        // so the hot path is a single INSERT — we DON'T run CREATE TABLE on every
+        // request. That's one fewer round-trip per submission and it lets the DB user
+        // stay least-privilege (INSERT/SELECT only, no CREATE/DROP/ALTER).
+        $insert = function () use ($mysqli, $first_name, $last_name, $email, $phone,
+                                   $destination, $start_when, $consent, $received_at, $ip) {
+            $stmt = $mysqli->prepare(
+                "INSERT INTO inquiries
+                 (first_name, last_name, email, phone, destination, start_when, consent, created_at, ip_address)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            );
+            if (!$stmt) {
+                return false;
+            }
             $stmt->bind_param('sssssssss',
                 $first_name, $last_name, $email, $phone,
                 $destination, $start_when, $consent, $received_at, $ip);
-            $stored = $stmt->execute();
-            if (!$stored) {
-                error_log("MGM inquiry DB insert failed: " . $stmt->error);
-            }
+            $ok = $stmt->execute();
             $stmt->close();
+            return $ok;
+        };
+
+        $stored = $insert();
+
+        // Self-heal ONLY if the table is genuinely missing (MySQL errno 1146): create
+        // it once, then retry. Normal requests never enter this branch. If the DB user
+        // is least-privilege (no CREATE), this no-ops and we fall back to emailing.
+        if (!$stored && $mysqli->errno === 1146) {
+            $mysqli->query(
+                "CREATE TABLE IF NOT EXISTS inquiries (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    first_name  VARCHAR(100) NOT NULL,
+                    last_name   VARCHAR(100) NOT NULL,
+                    email       VARCHAR(190) NOT NULL,
+                    phone       VARCHAR(30)  NOT NULL,
+                    destination VARCHAR(100) NOT NULL,
+                    start_when  VARCHAR(100) NOT NULL,
+                    consent     VARCHAR(3)   NOT NULL,
+                    created_at  DATETIME     NOT NULL,
+                    ip_address  VARCHAR(45)  DEFAULT NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+            );
+            $stored = $insert();
+        }
+
+        if (!$stored) {
+            error_log("MGM inquiry DB insert failed: " . $mysqli->error);
         }
         $mysqli->close();
     } else {

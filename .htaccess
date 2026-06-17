@@ -1,0 +1,67 @@
+# ============================================================
+#  My Global Mentors  —  Apache config for public_html
+#  Static site (HTML/CSS/JS) + send-mail.php contact backend
+# ============================================================
+
+# ---- 1. Serve index.html before any leftover index.php ----
+DirectoryIndex index.html index.php
+
+# ---- 2. Force HTTPS  (http://  ->  https://) ----
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Optional: also send www -> non-www so there is one canonical URL.
+# Uncomment the two lines below if you want www.myglobalmentors.com
+# to redirect to myglobalmentors.com.
+# RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# ---- 3. Protect the DB credentials file from direct web access ----
+#  PHP loads it from disk, so denying HTTP access changes nothing
+#  functionally — pure defense-in-depth.
+<Files "db-config.php">
+    Require all denied
+</Files>
+
+# ---- 4. Block leftover WordPress entry points (probe / brute-force targets) ----
+#  Harmless to keep even after you delete the wp-* files.
+<FilesMatch "^(wp-login|wp-config|wp-config-sample|wp-signup|wp-cron|wp-mail|wp-trackback|wp-links-opml|wp-load|wp-settings|wp-blog-header|wp-activate|wp-comments-post|wp-register|xmlrpc)\.php$">
+    Require all denied
+</FilesMatch>
+RewriteRule ^wp-admin(/.*)?$    - [F,L]
+RewriteRule ^wp-includes(/.*)?$ - [F,L]
+
+# ---- 5. Block sensitive / non-public file types ----
+<FilesMatch "\.(docx?|gs|log|sql|ini|sh|bak|old|orig)$">
+    Require all denied
+</FilesMatch>
+
+# ---- 6. No directory browsing ----
+Options -Indexes
+
+# ---- 7. Security headers ----
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # Turn on HSTS only AFTER https:// is confirmed working everywhere
+    # (it forces browsers to HTTPS for a year — hard to undo). Then uncomment:
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ---- 8. Performance: gzip + browser caching for static assets ----
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml \
+        application/javascript application/json image/svg+xml
+</IfModule>
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css               "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/jpeg             "access plus 6 months"
+    ExpiresByType image/png              "access plus 6 months"
+    ExpiresByType image/webp             "access plus 6 months"
+    ExpiresByType image/svg+xml          "access plus 6 months"
+    ExpiresByType font/woff2             "access plus 1 year"
+</IfModule>
